@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, AccelerometerDemoActivity!</string>
+    <string name="app_name">AccelerometerDemo</string>
+    <string name="start">Start Sensor</string>
+    <string name="stop">Stop Sensor</string>
+    <string name="sensing">Sensing</string>
+    <string name="not_sensing">Not Sensing</string>
+    <string name="fall">Fall Detected</string>
+    <string name="no_fall">No Fall happened</string>
+
+</resources>
