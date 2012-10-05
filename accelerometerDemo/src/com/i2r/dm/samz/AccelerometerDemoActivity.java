@@ -71,13 +71,14 @@ public class AccelerometerDemoActivity extends Activity implements
 		// mSensorManager.connectSimulator();
 
 		initLayout();
-		initSession();
+		//initSession();
 		pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
 
 	}
 
-	private void initSession() {
+	//We don need to use this function
+	/*private void initSession() {
 		AccelerometerDataSource ds = new AccelerometerDataSource(this);
 		try {
 			ds.open();
@@ -92,7 +93,7 @@ public class AccelerometerDemoActivity extends Activity implements
 			sessionNum = 0;
 			Log.e(DEBUG_TAG, "there were no previous session num");
 		}
-	}
+	}*/
 
 	private void initLayout() {
 		// clearDatabase();
@@ -106,17 +107,23 @@ public class AccelerometerDemoActivity extends Activity implements
 		final TextView senseStatus = (TextView) findViewById(R.id.textView_senseStatus);
 		senseStatus.setText(getResources().getString(R.string.not_sensing));
 		senseStatus.setTextColor(getResources().getColor(R.color.red));
+		
 
 		/* Sensor Button */
 		final Button sensorBtn = (Button) findViewById(R.id.sensorBtn);
 		sensorBtn.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
+				accDataSource = new AccelerometerDataSource(
+						AccelerometerDemoActivity.this);
 				if (sensing) {
 					sensing = false;
 					unregisterListener();
-
 				} else {
+					accDataSource.open();
+					String myquery="select * from store";
+					accDataSource.query(myquery);
+					accDataSource.close();
 					sensing = true;
 					EditText duration = (EditText) findViewById(R.id.editText_senseDuration);
 					senseDuration = Integer.parseInt(duration.getText()
@@ -124,9 +131,11 @@ public class AccelerometerDemoActivity extends Activity implements
 					dataList.clear();
 					startSenseTime = System.currentTimeMillis();
 					registerListener();
+					
 				}
 			}
-
+			
+			
 		});
 
 		/* Spinner */
@@ -164,6 +173,7 @@ public class AccelerometerDemoActivity extends Activity implements
 					}
 				});
 
+		
 		/* Clear Database Button */
 		Button clearDatabase = (Button) findViewById(R.id.clearDbBtn);
 		clearDatabase.setOnClickListener(new View.OnClickListener() {
@@ -282,6 +292,7 @@ public class AccelerometerDemoActivity extends Activity implements
 	}
 
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		
 	}
 
 	public void onSensorChanged(SensorEvent event) {
@@ -312,7 +323,8 @@ public class AccelerometerDemoActivity extends Activity implements
 					* 1000) {
 				unregisterListener();
 				sensing = false;
-				insertToDatabase(dataList);
+				//Commented out by Daniel
+				//insertToDatabase(dataList);
 				dataList.clear();
 
 			}
@@ -339,6 +351,7 @@ public class AccelerometerDemoActivity extends Activity implements
 		}
 		Log.i(DEBUG_TAG, "data list inserted to database");
 
+		
 	}
 
 }

@@ -12,11 +12,10 @@ public class AccData {
 	private int _rate;
 	private float _rss;
 	
-	public AccData()
-	{
-		
+	public AccData(){
+	
 	}
-
+	
 	public AccData(int session,long timestamp, float x, float y, float z) {
 		_session = session;
 		_timestamp = timestamp;
